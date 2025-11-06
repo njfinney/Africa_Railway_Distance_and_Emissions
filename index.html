@@ -29,16 +29,33 @@
             <!-- Region Selection -->
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Select Countries/Regions (hold Ctrl/Cmd to select multiple)</label>
-                <select id="region" multiple class="w-full px-4 py-2 border rounded-lg" size="9" style="min-height: 200px;">
-                    <option value="mozambique">Mozambique</option>
-                    <option value="malawi">Malawi</option>
-                    <option value="zambia">Zambia</option>
-                    <option value="zimbabwe">Zimbabwe</option>
-                    <option value="tanzania">Tanzania</option>
-                    <option value="kenya">Kenya</option>
-                    <option value="south-africa">South Africa</option>
-                    <option value="southern-africa">Southern Africa (All countries)</option>
-                    <option value="east-africa">East Africa (All countries)</option>
+                <select id="region" multiple class="w-full px-4 py-2 border rounded-lg" size="12" style="min-height: 260px;">
+                    <optgroup label="Southern Africa">
+                        <option value="mozambique">Mozambique</option>
+                        <option value="malawi">Malawi</option>
+                        <option value="zambia">Zambia</option>
+                        <option value="zimbabwe">Zimbabwe</option>
+                        <option value="south-africa">South Africa</option>
+                    </optgroup>
+                    <optgroup label="East Africa">
+                        <option value="tanzania">Tanzania</option>
+                        <option value="kenya">Kenya</option>
+                    </optgroup>
+                    <optgroup label="West Africa">
+                        <option value="nigeria">Nigeria</option>
+                        <option value="cameroon">Cameroon</option>
+                        <option value="benin">Benin</option>
+                        <option value="cote-ivoire">Côte d'Ivoire</option>
+                        <option value="burkina-faso">Burkina Faso</option>
+                        <option value="liberia">Liberia</option>
+                        <option value="senegal">Senegal</option>
+                        <option value="mali">Mali</option>
+                    </optgroup>
+                    <optgroup label="Multi-Country Regions">
+                        <option value="southern-africa">Southern Africa (All countries)</option>
+                        <option value="east-africa">East Africa (All countries)</option>
+                        <option value="west-africa">West Africa (All countries)</option>
+                    </optgroup>
                 </select>
                 <button onclick="loadRegion()" class="mt-2 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold" id="load-btn">
                     Load Selected Regions
@@ -175,8 +192,17 @@
             'tanzania': { name: 'Tanzania', bbox: [-11.75, 29.34, -0.99, 40.44], singleCountry: true },
             'kenya': { name: 'Kenya', bbox: [-4.68, 33.89, 5.51, 41.91], singleCountry: true },
             'south-africa': { name: 'South Africa', bbox: [-34.84, 16.45, -22.13, 32.89], singleCountry: true },
+            'nigeria': { name: 'Nigeria', bbox: [4.27, 2.69, 13.89, 14.68], singleCountry: true },
+            'cameroon': { name: 'Cameroon', bbox: [1.65, 8.49, 13.08, 16.19], singleCountry: true },
+            'benin': { name: 'Benin', bbox: [6.23, 0.77, 12.42, 3.85], singleCountry: true },
+            'cote-ivoire': { name: 'Côte d\'Ivoire', bbox: [4.36, -8.60, 10.74, -2.49], singleCountry: true },
+            'burkina-faso': { name: 'Burkina Faso', bbox: [9.40, -5.52, 15.08, 2.40], singleCountry: true },
+            'liberia': { name: 'Liberia', bbox: [4.35, -11.49, 8.55, -7.37], singleCountry: true },
+            'senegal': { name: 'Senegal', bbox: [12.31, -17.54, 16.69, -11.36], singleCountry: true },
+            'mali': { name: 'Mali', bbox: [10.16, -12.24, 25.00, 4.27], singleCountry: true },
             'southern-africa': { name: 'Southern Africa', bbox: [-35, 20, -8, 43], multi: true },
-            'east-africa': { name: 'East Africa', bbox: [-12, 29, 5, 42], multi: true }
+            'east-africa': { name: 'East Africa', bbox: [-12, 29, 5, 42], multi: true },
+            'west-africa': { name: 'West Africa', bbox: [4, -18, 26, 17], multi: true }
         };
 
         const COUNTRY_DATA = {
@@ -186,7 +212,15 @@
             'Mozambique': { bbox: [-26.87, 30.21, -10.47, 40.84], center: [-18.67, 35.53] },
             'Zambia': { bbox: [-18.08, 21.99, -8.19, 33.71], center: [-13.14, 27.85] },
             'Zimbabwe': { bbox: [-22.42, 25.24, -15.61, 33.06], center: [-19.02, 29.15] },
-            'South Africa': { bbox: [-34.84, 16.45, -22.13, 32.89], center: [-28.48, 24.67] }
+            'South Africa': { bbox: [-34.84, 16.45, -22.13, 32.89], center: [-28.48, 24.67] },
+            'Nigeria': { bbox: [4.27, 2.69, 13.89, 14.68], center: [9.08, 8.68] },
+            'Cameroon': { bbox: [1.65, 8.49, 13.08, 16.19], center: [7.37, 12.35] },
+            'Benin': { bbox: [6.23, 0.77, 12.42, 3.85], center: [9.31, 2.31] },
+            'Côte d\'Ivoire': { bbox: [4.36, -8.60, 10.74, -2.49], center: [7.54, -5.55] },
+            'Burkina Faso': { bbox: [9.40, -5.52, 15.08, 2.40], center: [12.24, -1.56] },
+            'Liberia': { bbox: [4.35, -11.49, 8.55, -7.37], center: [6.43, -9.43] },
+            'Senegal': { bbox: [12.31, -17.54, 16.69, -11.36], center: [14.50, -14.45] },
+            'Mali': { bbox: [10.16, -12.24, 25.00, 4.27], center: [17.57, -4.00] }
         };
 
         function log(message, type = 'info') {
@@ -222,8 +256,12 @@
             
             // PRIORITY 2: Check OSM tags
             if (tags['addr:country']) {
-                const map = { 'MZ': 'Mozambique', 'MW': 'Malawi', 'ZM': 'Zambia', 
-                             'ZW': 'Zimbabwe', 'TZ': 'Tanzania', 'KE': 'Kenya', 'ZA': 'South Africa' };
+                const map = { 
+                    'MZ': 'Mozambique', 'MW': 'Malawi', 'ZM': 'Zambia', 
+                    'ZW': 'Zimbabwe', 'TZ': 'Tanzania', 'KE': 'Kenya', 'ZA': 'South Africa',
+                    'NG': 'Nigeria', 'CM': 'Cameroon', 'BJ': 'Benin', 'CI': 'Côte d\'Ivoire',
+                    'BF': 'Burkina Faso', 'LR': 'Liberia', 'SN': 'Senegal', 'ML': 'Mali'
+                };
                 if (map[tags['addr:country'].toUpperCase()]) return map[tags['addr:country'].toUpperCase()];
             }
             if (tags['is_in:country']) return tags['is_in:country'];
